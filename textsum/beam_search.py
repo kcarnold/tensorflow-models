@@ -21,7 +21,9 @@ K*K results, and start over again until certain number of results are fully
 decoded.
 """
 
+from __future__ import absolute_import
 import tensorflow as tf
+from six.moves import range
 
 FLAGS = tf.flags.FLAGS
 tf.flags.DEFINE_bool('normalize_by_length', True, 'Whether normalize')
@@ -116,9 +118,9 @@ class BeamSearch(object):
       # The first step takes the best K results from first hyps. Following
       # steps take the best K results from K*K hyps.
       num_beam_source = 1 if steps == 0 else len(hyps)
-      for i in xrange(num_beam_source):
+      for i in range(num_beam_source):
         h, ns = hyps[i], new_states[i]
-        for j in xrange(self._beam_size*2):
+        for j in range(self._beam_size*2):
           all_hyps.append(h.Extend(topk_ids[i, j], topk_log_probs[i, j], ns))
 
       # Filter and collect any hypotheses that have the end token.

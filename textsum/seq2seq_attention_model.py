@@ -15,11 +15,14 @@
 
 """Sequence-to-Sequence with attention model for text summarization.
 """
+from __future__ import absolute_import
 from collections import namedtuple
 
 import numpy as np
 import tensorflow as tf
 import seq2seq_lib
+from six.moves import range
+from six.moves import zip
 
 
 HParams = namedtuple('HParams',
@@ -154,7 +157,7 @@ class Seq2SeqAttentionModel(object):
         emb_decoder_inputs = [tf.nn.embedding_lookup(embedding, x)
                               for x in decoder_inputs]
 
-      for layer_i in xrange(hps.enc_layers):
+      for layer_i in range(hps.enc_layers):
         with tf.variable_scope('encoder%d'%layer_i), tf.device(
             self._next_device()):
           cell_fw = tf.nn.rnn_cell.LSTMCell(
@@ -203,7 +206,7 @@ class Seq2SeqAttentionModel(object):
 
       with tf.variable_scope('output'), tf.device(self._next_device()):
         model_outputs = []
-        for i in xrange(len(decoder_outputs)):
+        for i in range(len(decoder_outputs)):
           if i > 0:
             tf.get_variable_scope().reuse_variables()
           model_outputs.append(
@@ -250,7 +253,7 @@ class Seq2SeqAttentionModel(object):
     optimizer = tf.train.GradientDescentOptimizer(self._lr_rate)
     tf.scalar_summary('learning rate', self._lr_rate)
     self._train_op = optimizer.apply_gradients(
-        zip(grads, tvars), global_step=self.global_step, name='train_step')
+        list(zip(grads, tvars)), global_step=self.global_step, name='train_step')
 
   def encode_top_state(self, sess, enc_inputs, enc_len):
     """Return the top states from encoder for decoder.

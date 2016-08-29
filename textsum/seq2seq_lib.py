@@ -15,7 +15,9 @@
 
 """seq2seq library codes copied from elsewhere for customization."""
 
+from __future__ import absolute_import
 import tensorflow as tf
+from six.moves import zip
 
 
 # Adapted to support sampled_softmax loss function, which accepts activations

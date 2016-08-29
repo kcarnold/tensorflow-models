@@ -21,6 +21,7 @@ Implement "Abstractive Text Summarization using Sequence-to-sequence RNNS and
 Beyond."
 
 """
+from __future__ import absolute_import
 import sys
 import time
 

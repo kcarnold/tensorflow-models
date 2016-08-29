@@ -15,6 +15,7 @@
 
 """Data batchers for data described in ..//data_prep/README.md."""
 
+from __future__ import absolute_import
 import glob
 import random
 import struct
